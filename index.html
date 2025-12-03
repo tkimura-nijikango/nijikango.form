@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>無料登録 | ニジ看護転職</title>
+    <meta name="robots" content="noindex">
+    
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['"Zen Maru Gothic"', 'sans-serif'] },
+                    colors: { brand: { pink: '#ff8fb1', active: '#ff6b9d' } }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #fdfdfd; color: #333; }
+        
+        /* 選択肢ボタンのカスタムスタイル */
+        .option-btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: white;
+            border: 2px solid #eee;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+        .option-btn:active { transform: scale(0.98); background-color: #fff0f5; border-color: #ff8fb1; }
+        .option-btn input { position: absolute; opacity: 0; }
+        
+        /* ステップ進行のアニメーション */
+        .step-container { display: none; opacity: 0; transition: opacity 0.3s ease-in-out; }
+        .step-container.active { display: block; opacity: 1; }
+
+        /* プログレスバー */
+        .progress-bar { height: 6px; background: #eee; width: 100%; position: fixed; top: 0; left: 0; z-index: 50; }
+        .progress-fill { height: 100%; background: #ff8fb1; width: 0%; transition: width 0.3s; }
+
+        /* 入力フィールド */
+        .custom-input {
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: #fafafa;
+            outline: none;
+        }
+        .custom-input:focus { border-color: #ff8fb1; background: white; }
+    </style>
+</head>
+<body>
+
+    <!-- 上部プログレスバー -->
+    <div class="progress-bar"><div class="progress-fill" id="progressBar"></div></div>
+
+    <!-- ヘッダー -->
+    <header class="pt-6 pb-2 text-center">
+        <h1 class="text-xl font-black text-brand-pink flex items-center justify-center gap-2">
+            <i class="fa-solid fa-rainbow"></i> ニジ看護転職
+        </h1>
+    </header>
+
+    <!-- フォームエリア -->
+    <main class="max-w-md mx-auto px-4 py-6 pb-20">
+        <form id="entryForm" action="#" method="POST">
+            
+            <!-- STEP 1: 転職意欲 -->
+            <div class="step-container active" id="step1">
+                <div class="text-center mb-6">
+                    <span class="text-brand-pink font-bold text-sm">STEP 1/5</span>
+                    <h2 class="text-2xl font-bold mt-2">現在のお気持ちは<br>どちらに近いですか？</h2>
+                </div>
+                <div class="space-y-4">
+                    <label class="option-btn" onclick="nextStep(2)">
+                        <input type="radio" name="feeling" value="sugu">
+                        <span class="text-lg">近いうちに転職したい</span>
+                        <i class="fa-solid fa-chevron-right absolute right-4 top-5 text-gray-300"></i>
+                    </label>
+                    <label class="option-btn" onclick="nextStep(2)">
+                        <input type="radio" name="feeling" value="info">
+                        <span class="text-lg">今は情報収集したい</span>
+                        <i class="fa-solid fa-chevron-right absolute right-4 top-5 text-gray-300"></i>
+                    </label>
+                </div>
+            </div>
+
+            <!-- STEP 2: 資格 -->
+            <div class="step-container" id="step2">
+                <div class="text-center mb-6">
+                    <span class="text-brand-pink font-bold text-sm">STEP 2/5</span>
+                    <h2 class="text-2xl font-bold mt-2">保有資格を教えてください</h2>
+                </div>
+                <div class="space-y-3">
+                    <label class="option-btn" onclick="nextStep(3)">
+                        <input type="radio" name="license" value="nurse">
+                        <span class="text-lg">正看護師</span>
+                    </label>
+                    <label class="option-btn" onclick="nextStep(3)">
+                        <input type="radio" name="license" value="associate_nurse">
+                        <span class="text-lg">准看護師</span>
+                    </label>
+                    <label class="option-btn" onclick="nextStep(3)">
+                        <input type="radio" name="license" value="midwife">
+                        <span class="text-lg">助産師</span>
+                    </label>
+                    <label class="option-btn" onclick="nextStep(3)">
+                        <input type="radio" name="license" value="health_nurse">
+                        <span class="text-lg">保健師</span>
+                    </label>
+                    <label class="option-btn" onclick="nextStep(3)">
+                        <input type="radio" name="license" value="student">
+                        <span class="text-sm text-gray-500">看護学生・資格なし</span>
+                    </label>
+                </div>
+                <button type="button" onclick="prevStep(1)" class="text-gray-400 text-sm mt-4 w-full text-center">戻る</button>
+            </div>
+
+            <!-- STEP 3: 生まれ年 -->
+            <div class="step-container" id="step3">
+                <div class="text-center mb-6">
+                    <span class="text-brand-pink font-bold text-sm">STEP 3/5</span>
+                    <h2 class="text-2xl font-bold mt-2">生まれ年を教えてください</h2>
+                    <p class="text-xs text-gray-400 mt-2">※求人ご提案の参考にさせていただきます</p>
+                </div>
+                <div class="mb-6">
+                    <select id="birthYear" class="custom-input bg-white" onchange="if(this.value) nextStep(4)">
+                        <option value="">選択してください</option>
+                        <!-- JSで生成します -->
+                    </select>
+                </div>
+                <button type="button" onclick="prevStep(2)" class="text-gray-400 text-sm mt-4 w-full text-center">戻る</button>
+            </div>
+
+            <!-- STEP 4: お名前 -->
+            <div class="step-container" id="step4">
+                <div class="text-center mb-6">
+                    <span class="text-brand-pink font-bold text-sm">STEP 4/5</span>
+                    <h2 class="text-2xl font-bold mt-2">お名前を教えてください</h2>
+                    <p class="text-xs text-brand-pink mt-1"><i class="fa-solid fa-lock"></i> 個人情報は厳重に管理されます</p>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-bold mb-2 ml-1">お名前 (漢字)</label>
+                    <input type="text" id="nameInput" placeholder="例：看護 花子" class="custom-input">
+                </div>
+                <button type="button" onclick="validateAndNext(4, 5, 'nameInput')" class="w-full bg-brand-pink text-white font-bold py-4 rounded-xl shadow-lg hover:bg-pink-400 transition text-lg">
+                    次へ進む
+                </button>
+                <button type="button" onclick="prevStep(3)" class="text-gray-400 text-sm mt-4 w-full text-center">戻る</button>
+            </div>
+
+            <!-- STEP 5: 電話番号 -->
+            <div class="step-container" id="step5">
+                <div class="text-center mb-6">
+                    <span class="text-brand-pink font-bold text-sm">LAST STEP</span>
+                    <h2 class="text-2xl font-bold mt-2">電話番号を教えてください</h2>
+                    <p class="text-xs text-gray-400 mt-2">※ハイフンなしで入力してください</p>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-sm font-bold mb-2 ml-1">携帯電話番号</label>
+                    <input type="tel" id="telInput" placeholder="09012345678" class="custom-input" maxlength="11" pattern="\d*">
+                    <p class="text-xs text-red-400 mt-2 hidden" id="telError">正しい電話番号を入力してください</p>
+                </div>
+                <div class="bg-blue-50 p-4 rounded-lg mb-6 text-xs text-gray-500">
+                    <p class="mb-2">非公開求人の詳細をお伝えするため、担当者よりお電話させていただきます。</p>
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-brand-pink to-pink-500 text-white font-bold py-4 rounded-xl shadow-xl hover:scale-105 transition transform text-xl">
+                    上記の内容で登録する
+                </button>
+                <button type="button" onclick="prevStep(4)" class="text-gray-400 text-sm mt-4 w-full text-center">戻る</button>
+            </div>
+
+        </form>
+    </main>
+
+    <footer class="bg-gray-50 py-6 text-center text-[10px] text-gray-400">
+        <p class="mb-2"><a href="#">利用規約</a> | <a href="#">プライバシーポリシー</a></p>
+        <p>&copy; 2025 ニジ看護転職</p>
+    </footer>
+
+    <script>
+        // 生まれ年のプルダウン生成 (1960 ~ 2005)
+        const yearSelect = document.getElementById('birthYear');
+        const currentYear = new Date().getFullYear();
+        for (let i = 2005; i >= 1960; i--) {
+            const option = document.createElement('option');
+            option.value = i;
+            option.text = `${i}年 ( ${currentYear - i}歳 )`;
+            yearSelect.appendChild(option);
+        }
+
+        // ステップ遷移ロジック
+        function updateProgress(step) {
+            const percent = (step / 5) * 100;
+            document.getElementById('progressBar').style.width = percent + '%';
+        }
+
+        function nextStep(targetStep) {
+            // 現在のステップを非表示
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+            // 次のステップを表示
+            const nextEl = document.getElementById('step' + targetStep);
+            nextEl.classList.add('active');
+            updateProgress(targetStep);
+
+            // 自動フォーカス
+            if (targetStep === 4) {
+                setTimeout(() => document.getElementById('nameInput').focus(), 300);
+            } else if (targetStep === 5) {
+                setTimeout(() => document.getElementById('telInput').focus(), 300);
+            }
+            
+            // 画面トップへスクロール
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function prevStep(targetStep) {
+            document.querySelectorAll('.step-container').forEach(el => el.classList.remove('active'));
+            document.getElementById('step' + targetStep).classList.add('active');
+            updateProgress(targetStep);
+        }
+
+        function validateAndNext(current, next, inputId) {
+            const val = document.getElementById(inputId).value;
+            if (!val) return; // 空なら進まない
+            nextStep(next);
+        }
+
+        // 電話番号のバリデーション（簡易）
+        document.getElementById('telInput').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9]/g, ''); // 数字以外削除
+        });
+
+        // フォーム送信時の処理（デモ用）
+        document.getElementById('entryForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const tel = document.getElementById('telInput').value;
+            if (tel.length < 10) {
+                document.getElementById('telError').classList.remove('hidden');
+                return;
+            }
+            alert('登録が完了しました！（デモ画面）');
+        });
+
+        // 初期化
+        updateProgress(1);
+    </script>
+</body>
+</html>
